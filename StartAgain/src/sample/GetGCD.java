@@ -8,7 +8,7 @@ public class GetGCD {
 		
 		int test = getGCD(2, 5);
 		System.out.println(test);
-	
+		System.out.println("?");
 	}
 	
 	public static int getGCD(int a, int b) {
