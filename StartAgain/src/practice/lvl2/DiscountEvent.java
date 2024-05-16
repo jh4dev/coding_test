@@ -1,4 +1,7 @@
-package practice.lvl2;import java.net.Socket;
+package practice.lvl2;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /*
  * 할인 행사
@@ -42,8 +45,62 @@ public class DiscountEvent {
 	public static int solution(String[] want, int[] number, String[] discount) {
         int answer = 0;
         
+        Map<String, WantItem> wantMap = new HashMap<String, WantItem>();
         
+        for(int w = 0; w < want.length; w++) {
+        	WantItem wi = new WantItem(want[w], number[w]);
+        	wantMap.put(want[w], wi);
+        }
+        
+        WantItem ti; 
+        for(int i = 0; i < discount.length; i++) {
+        	
+        	ti = wantMap.get(discount[i]);
+        	if(ti == null) {
+        		continue;
+        	} else {
+        		ti.buyCnt++;
+        	}
+        	
+        	if(i >= 9) {
+        		if(checkAnswer(wantMap)) {
+        			answer++;
+        		} 
+        		
+        		ti = wantMap.get(discount[i - 9]);
+        		if(ti != null) {
+        			ti.buyCnt--;
+        		}
+        	}
+        }
         
         return answer;
     }
+	
+	public static boolean checkAnswer(Map<String, WantItem> wm) {
+		
+		for(Entry<String, WantItem> entry : wm.entrySet()) {
+			if(entry.getValue().wantCnt != entry.getValue().buyCnt) return false;
+		}
+		
+		return true;
+	}
+	
+	public static class WantItem {
+		
+		String name;
+		int wantCnt;
+		int buyCnt;
+		
+		public WantItem(String n, int w) {
+			this.name = n;
+			this.wantCnt = w;
+			this.buyCnt = 0;
+		}
+
+		@Override
+		public String toString() {
+			return "WantItem [name=" + name + ", wantCnt=" + wantCnt + ", buyCnt=" + buyCnt + "]";
+		}
+	}
 }
