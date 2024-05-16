@@ -8,8 +8,8 @@ public class LifeBoat {
 
     public static void main(String[] args) {
 
-        int[] people = {70, 80, 50};
-        int limit = 100;
+        int[] people = {40, 50, 60, 70, 80, 90, 100, 110, 120};
+        int limit = 200;
 
         System.out.println(solution(people, limit));
     }
