@@ -35,8 +35,8 @@ import java.util.Map.Entry;
 public class DiscountEvent {
 
 	public static void main(String[] args) {
-		String[] want = {"banana", "apple", "rice", "pork", "pot"};
-		int[] 	number = {3, 2, 2, 2, 1};
+		String[] want = {"pot"};
+		int[] 	number = {1};
 		String[] discount = {"chicken", "apple", "apple", "banana", "rice", "apple", "pork", "banana", "pork", "rice", "pot", "banana", "apple", "banana"};
 		
 		System.out.println(solution(want, number, discount));
@@ -56,9 +56,7 @@ public class DiscountEvent {
         for(int i = 0; i < discount.length; i++) {
         	
         	ti = wantMap.get(discount[i]);
-        	if(ti == null) {
-        		continue;
-        	} else {
+        	if(ti != null) {
         		ti.buyCnt++;
         	}
         	
@@ -66,7 +64,6 @@ public class DiscountEvent {
         		if(checkAnswer(wantMap)) {
         			answer++;
         		} 
-        		
         		ti = wantMap.get(discount[i - 9]);
         		if(ti != null) {
         			ti.buyCnt--;
