@@ -38,15 +38,15 @@ public class CutArray {
         int answerIdx = 0;
         boolean flag = false;
         
+        Loop1:
         for(int i = 0; i < n; i++) {
         	for(int j = 0; j < n; j++) {
 //        		tempArr[i][j] = Math.max(i, j) + 1;
         		if(i == left/n && j == left%n) flag = true;
-        		else if(i == right/n  && j == right%n + 1) break;
         		
         		if(flag) {
-        			System.out.print(answerIdx);
         			answer[answerIdx] = Math.max(i, j) + 1;
+        			if(i == right/n  && j == right%n) break Loop1;
         			answerIdx++;
         		}
         	}
