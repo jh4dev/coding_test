@@ -55,6 +55,10 @@ public class MyUtil {
         return sbf.reverse().toString();
 	}
 	
+	//진수 변환
+	//Integer.toString(숫자, 진수);
+	
+	
 	//소수 판단
 	public boolean isPrimeNumber(long number) {
 		
