@@ -17,39 +17,35 @@ import java.util.Map;
  * */
 public class VowelsDictionary {
 	
-	static int cnt = 0;
+	static int cnt = 1;
 	public static void main(String[] args) {
 		
-		String word = "UUUUU";
+		String word = "A";
 		
 		System.out.println(solution(word));
 	}
 	
 	public static int solution(String word) {
-        int answer = 0;
         
-        String nowStr = "";
         String[] wArr = {"A", "E", "I", "O", "U"};
         
         Map<String, Integer> dicMap = new HashMap<String, Integer>();
-        
         for(int i = 0; i < wArr.length; i++) {
-        	nowStr = "";
-        	dfs(wArr, nowStr, dicMap);
+        	dfs(wArr, wArr[i], dicMap, 0);
         }
         
-        return cnt;
+        return dicMap.get(word);
     }
 	
-	public static void dfs(String[] wArr, String nowStr, Map<String, Integer> dicMap) {
+	public static void dfs(String[] wArr, String nowStr, Map<String, Integer> dicMap, int depth) {
+		if(depth == 5) return;
 		
-		if(nowStr.length() > 5) return;
+		if(dicMap.get(nowStr) == null) {
+			dicMap.put(nowStr, cnt++);
+		}
 		
 		for(int i = 0; i < wArr.length; i++) {
-			nowStr += wArr[i];
-			System.out.println(nowStr);
-			dicMap.put(nowStr, cnt++);
- 			dfs(wArr, nowStr, dicMap);
+ 			dfs(wArr, nowStr + wArr[i], dicMap, depth + 1);
 		}
 	}
 }
