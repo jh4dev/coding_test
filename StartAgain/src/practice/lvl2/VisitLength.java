@@ -1,5 +1,6 @@
 package practice.lvl2;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -40,28 +41,12 @@ import java.util.Set;
 public class VisitLength {
 
 	public static void main(String[] args) {
-		
-		Set<MovePath> visitSet = new HashSet<MovePath>();
-		
-		MovePath mp1 = new MovePath(0, 0, 0, 1);
-		MovePath mp2 = new MovePath(0, 0, 0, 1);
-		MovePath mp3 = new MovePath(0, 1, 0, 1);
-		
-		visitSet.add(mp1);
-		
-		System.out.println(mp1.equals(mp2));
-		System.out.println(mp1.equals(mp3));
-		if(visitSet.contains(mp2)) {
-			System.out.println("mp2 contains");
-		}
-		if(visitSet.contains(mp3)) {
-			System.out.println("mp3 contains");
-		}
+		String dirs = "ULURRDLLU";
+		System.out.println(solution(dirs));
 		
 	}
 	
-	public int solution(String dirs) {
-        int answer = 0;
+	public static int solution(String dirs) {
         //U D R L
         Map<String, int[]> moveMap = new HashMap<String, int[]>();
         moveMap.put("U", new int[] {1, 0});
@@ -72,21 +57,24 @@ public class VisitLength {
         Set<MovePath> visitSet = new HashSet<MovePath>();
         
         int[] now 		= {0, 0};
-        int[] path1		= {0, 0, 0, 0};
-        int[] path2		= {0, 0, 0, 0};
         int targetX, targetY = 0;
         for(String d : dirs.split("")) {
+        	System.out.println(Arrays.toString(now));
         	targetX = now[0] + moveMap.get(d)[0];
         	targetY = now[1] + moveMap.get(d)[1];
         	
         	//범위 밖 무시
         	if(targetX < -5 || targetX > 5 || targetY < -5 || targetY > 5) continue;
-
         	
-        	
+        	MovePath mp = new MovePath(now[0], now[1], targetX, targetY);
+        	if(!visitSet.contains(mp)) {
+        		visitSet.add(mp);
+        	}
+        	now[0] = targetX;
+        	now[1] = targetY;
         }
         
-        return answer;
+        return visitSet.size();
     }
 	
 	public static class MovePath {
