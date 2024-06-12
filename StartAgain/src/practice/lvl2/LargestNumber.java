@@ -3,8 +3,6 @@ package practice.lvl2;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import lvl2.FileNameSorting.MyFile;
-
 /**
  * 가장 큰 수
  * 
@@ -28,36 +26,76 @@ public class LargestNumber {
 
 	public static void main(String[] args) {
 		
-		int[] numbers = {1,3,4,2,35,32};
+//		System.out.println("123".substring(0, 2));
+//		System.out.println("123".substring(1));
+		
+		int[] numbers = {0,0,0};
 		System.out.println(solution(numbers));
 	}
 	
 	public static String solution(int[] numbers) {
-        String answer = "";
         
         String[] numStrArr = Arrays.stream(numbers)
                 .mapToObj(Integer::toString)
                 .toArray(String[]::new);
         
-        System.out.println(Arrays.toString(numStrArr));
+        Arrays.sort(numStrArr, new CustomComparator());
         
-        Arrays.sort(numStrArr);
+        StringBuffer sbf = new StringBuffer();
+        for(String numStr : numStrArr) {
+        	sbf.append(numStr);
+        }
         
-        return answer;
+        return sbf.toString().charAt(0) == '0' ? "0" : sbf.toString();
     }
 	
 	static class CustomComparator implements Comparator<String> {
         @Override
         public int compare(String o1, String o2) {
-       
-        	//1. 가장 첫 숫자가 큰 값
+        	int i1 = Integer.parseInt(o1.split("")[0]);
+        	int i2 = Integer.parseInt(o2.split("")[0]);
+        	int len1 = o1.length();
+        	int len2 = o2.length();
         	
-        	//2. 같다면 길이가 짧은 값
-        	
-        	//3. 길이가 같다면 큰 값
-        	
-        	return o1.compareTo(o2);
+        	if(len1 == len2){
+        		//1. 길이가 같다면, 숫자 크기 비교
+        		return o2.compareTo(o1);
+        		
+        	} else if(i1 != i2) {
+        		//2. 가장 첫 숫자가 큰 값
+        		return i2 - i1;
+        		
+        	} else {
+        		
+        		//3. 첫 숫작 같고, 길이가 다르다면, 길이가 짧은 숫자에, 길이가 긴 숫자의 길이와 동일하게 첫 숫자를 채워 비교
+        		// 길이를 맞춘 후에도 동일하다면, 길이가 긴 숫자 먼저
+        		if(len1 < len2) {
+        			for(int i = len1; i < len2; i++) {
+        				o1 += String.valueOf(i1);
+        			}
+        			
+        		} else if(len2 < len1) {
+        			for(int i = len2; i < len1; i++) {
+        				o2 += String.valueOf(i2);
+        			}
+        		}
+        		
+        		if(Integer.parseInt(o1) == Integer.parseInt(o2)) {
+        			// 주의
+    				// o1,o2 <= 1000
+        			if(Integer.parseInt(o1.split("")[1]) > i1) {
+        				// 가운데 숫자가 첫 숫자보다 크면, 길이가 짧은 숫자가 우선
+        				return len1 - len2;
+        			} else if(Integer.parseInt(o1.split("")[1]) < i1 ) {
+        				// 가운데 숫자가 첫 숫자보다 작으면, 길이가 긴 숫자가 우선
+        				return len2 - len1;
+        			} else {
+        				return o1.compareTo(o2);
+        			}
+        			
+    			}
+        		return Integer.parseInt(o2) - Integer.parseInt(o1);
+        	}
         }
-
     }
 }
