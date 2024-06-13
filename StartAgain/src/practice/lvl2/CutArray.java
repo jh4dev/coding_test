@@ -45,9 +45,11 @@ public class CutArray {
         		if(i == left/n && j == left%n) flag = true;
         		
         		if(flag) {
+
         			answer[answerIdx] = Math.max(i, j) + 1;
         			if(i == right/n  && j == right%n) break Loop1;
         			answerIdx++;
+        			
         		}
         	}
         }
