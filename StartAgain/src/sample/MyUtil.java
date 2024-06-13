@@ -43,7 +43,7 @@ public class MyUtil {
 	}
 	
 	//진수 변환2
-	public String chageNumverFormat2(long num, int format) {
+	public String chageNumberFormat2(long num, int format) {
 		StringBuffer sbf = new StringBuffer();
 
         while(num >= format) {

@@ -32,8 +32,15 @@ public class MakeLargestNumber {
         int nowMaxIdx 	= 0;
         int tempIdx = 0;
         
+        int numLen = number.length();
+        
         StringBuffer sbf = new StringBuffer();
         while(k > 0) {
+        	
+        	if(sbf.length() == numLen - k) {
+        		number = "";
+        		break;
+        	}
         	
         	nowMaxIdx = number.indexOf(String.valueOf(nextMax));
         	if(nowMaxIdx > -1 && nowMaxIdx <= k) {
