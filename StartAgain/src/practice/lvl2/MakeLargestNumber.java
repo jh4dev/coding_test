@@ -20,8 +20,8 @@ public class MakeLargestNumber {
 
 	public static void main(String[] args) {
 		
-		String number = "333222111";
-		int k = 3;
+		String number = "111222333";
+		int k = 5;
 		//775841
 		System.out.println(solution(number, k));
 	}
@@ -33,23 +33,44 @@ public class MakeLargestNumber {
         int tempIdx = 0;
         
         int numLen = number.length();
+<<<<<<< Updated upstream
+=======
+        int initK  = k;
+>>>>>>> Stashed changes
         
         StringBuffer sbf = new StringBuffer();
+        Loop1:
         while(k > 0) {
         	
+<<<<<<< Updated upstream
         	if(sbf.length() == numLen - k) {
+=======
+        	if(sbf.length() == numLen - initK) {
+>>>>>>> Stashed changes
         		number = "";
         		break;
         	}
         	
         	nowMaxIdx = number.indexOf(String.valueOf(nextMax));
+        	
         	if(nowMaxIdx > -1 && nowMaxIdx <= k) {
+ 
+        		if(nextMax == 0) {
+        			number = number.substring(1);
+        			k--;
+        			nextMax = 9;
+        			continue;
+        		}
+        		
     			k -= nowMaxIdx;
     			tempIdx = nowMaxIdx;
     			while(true) {
     				if(!String.valueOf(number.charAt(tempIdx)).equals(String.valueOf(nextMax))) {
     					break;
-    				}
+    				} else if(sbf.length() == numLen - initK) {
+    	        		number = "";
+    	        		break Loop1;
+    	        	}
     				sbf.append(number.charAt(nowMaxIdx));
     				tempIdx++;
     				if(tempIdx >= number.length()) {
@@ -61,6 +82,7 @@ public class MakeLargestNumber {
         			
         	} else {
         		nextMax--;
+        		
         	}
         }
         sbf.append(number);
