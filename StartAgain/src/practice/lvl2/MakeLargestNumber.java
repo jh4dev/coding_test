@@ -33,20 +33,18 @@ public class MakeLargestNumber {
         int tempIdx = 0;
         
         int numLen = number.length();
-<<<<<<< Updated upstream
-=======
+
+
         int initK  = k;
->>>>>>> Stashed changes
+
         
         StringBuffer sbf = new StringBuffer();
         Loop1:
         while(k > 0) {
-        	
-<<<<<<< Updated upstream
+
         	if(sbf.length() == numLen - k) {
-=======
+
         	if(sbf.length() == numLen - initK) {
->>>>>>> Stashed changes
         		number = "";
         		break;
         	}
@@ -89,5 +87,7 @@ public class MakeLargestNumber {
         
         return sbf.toString();
     }
+		return number;
+	}
 }
 

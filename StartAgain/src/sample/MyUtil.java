@@ -89,4 +89,23 @@ public class MyUtil {
 		
 		return result;
 	}
+	
+	//부분수열 체크 
+	public static boolean isSubsequence(String longStr, String shortStr) {
+        int originalIndex = 0;
+        int subsequenceIndex = 0;
+
+        // 원래 문자열과 부분 문자열을 모두 순회할 때까지 루프
+        while (originalIndex < longStr.length() && subsequenceIndex < shortStr.length()) {
+            // 현재 문자가 일치하면 부분 문자열의 다음 문자로 이동
+            if (longStr.charAt(originalIndex) == shortStr.charAt(subsequenceIndex)) {
+                subsequenceIndex++;
+            }
+            // 원래 문자열의 다음 문자로 이동
+            originalIndex++;
+        }
+
+        // 부분 문자열의 모든 문자를 찾았다면 true를 반환
+        return subsequenceIndex == shortStr.length();
+    }
 }
