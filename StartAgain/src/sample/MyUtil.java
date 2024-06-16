@@ -1,5 +1,8 @@
 package sample;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MyUtil {
 
 	
@@ -13,13 +16,19 @@ public class MyUtil {
     }
 	
 	//모든 약수
-	public void getDivisor(int number) {
-		int x;
-		int y;
-		for(int i = 1; i <= Math.sqrt(number); i++) {
-        	y = i;
-        	x = number / y;
+	public static List<Integer> getDivisor(int number) {
+		
+		List<Integer> divisors = new ArrayList<>();
+        for (int i = 1; i <= Math.sqrt(number); i++) {
+            if (number % i == 0) {
+                divisors.add(i);
+                if (i != number / i) {
+                    divisors.add(number / i);
+                }
+            }
         }
+        divisors.sort((o1, o2) -> o2 - o1);
+        return divisors;
 	}
 	
 	//진수 변환

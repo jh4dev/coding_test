@@ -1,5 +1,11 @@
 package practice.lvl2;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * 메뉴 리뉴얼
  * 
@@ -45,14 +51,116 @@ package practice.lvl2;
  * */
 public class MenuRenewal {
 
+	static Map<String, Course> courseMap = new HashMap<String, Course>();
 	
 	public static void main(String[] args) {
 		
+		String[] orders = {"XYZ", "XWY", "WXA"};
+		int[] course = {2,3,4};
+		
+		System.out.println(Arrays.toString(solution(orders, course)));
 	}
 	
-	public String[] solution(String[] orders, int[] course) {
-        String[] answer = {};
-        return answer;
+	public static String[] solution(String[] orders, int[] course) {
+		
+		List<String> answerList = new ArrayList<>();
+
+        Arrays.sort(orders, (o1, o2) -> o1.length() - o2.length());
+        
+        //각 메뉴 알파벳 순으로 정렬한 후 조합 구성 
+        String[] temp;
+        for(String o : orders) {
+        		temp = o.split("");
+        		Arrays.sort(temp);
+        		for(int cc : course) {
+        			combination(temp, "", 0, cc);
+    			}
+        }
+        
+        List<Course> cList = new ArrayList<>(courseMap.values());
+        
+        //길이 오름차순 > 횟수 내림차순 정렬
+        //동일한 길이를 가진 숫자 중, 가장 많은 주문 횟수를 코스로 추가하기 위함
+        cList.sort((o1, o2) -> {
+        	
+        		int lengthCompare = o1.menu.length() - o2.menu.length();
+        		if(lengthCompare == 0) {
+        			return o2.orderCnt - o1.orderCnt;
+        		} else {
+        			return lengthCompare;
+        		}
+        });
+       
+        int cIdx = 0;
+        int maxOrdCnt = 0;
+        for(int i = 0; i < cList.size(); i++) {
+        		if(cList.get(i).menu.length() == course[cIdx]) {
+        			maxOrdCnt = cList.get(i).orderCnt;
+        			if(maxOrdCnt >= 2) {
+        				for(int j = i; j < cList.size(); j++) {
+            				if(cList.get(j).orderCnt == maxOrdCnt) {
+            					answerList.add(cList.get(j).menu);
+            				} else {
+            					i = j;
+            					cIdx++;
+            					break;
+            				}
+            			}
+        			}
+        			if(cIdx >= course.length) break;
+        			maxOrdCnt = 0;
+        		}
+        }
+        
+        answerList.sort((o1, o2) -> o1.compareTo(o2));
+        
+        return answerList.toArray(new String[0]);
     }
 	
+	public static class Course {
+		
+		String menu;
+		int orderCnt;
+		
+		public Course(String menu) {
+			this.menu = menu;
+			this.orderCnt = 0;
+		}
+		
+		public void plusOrderCnt() {
+			this.orderCnt++;
+		}
+		
+		public String getMenu() {
+			return menu;
+		}
+		public void setMenu(String menu) {
+			this.menu = menu;
+		}
+		public int getOrderCnt() {
+			return orderCnt;
+		}
+		public void setOrderCnt(int orderCnt) {
+			this.orderCnt = orderCnt;
+		}
+		@Override
+		public String toString() {
+			return "Course [menu=" + menu + ", orderCnt=" + orderCnt + "]";
+		}
+	}
+	
+	// 조합 생성
+    public static void combination(String[] strs, String prefix, int start, int n) {
+        if (n == 0) {
+	        	Course c = courseMap.getOrDefault(prefix, new Course(prefix));
+	        	c.plusOrderCnt();
+	        	courseMap.put(prefix, c);
+        	
+            return;
+        }
+
+        for (int i = start; i <= strs.length - n; i++) {
+        	combination(strs, prefix + strs[i], i + 1, n - 1);
+        }
+    }
 }
