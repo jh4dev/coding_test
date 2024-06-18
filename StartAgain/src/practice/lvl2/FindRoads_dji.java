@@ -1,17 +1,12 @@
 package practice.lvl2;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.Set;
 
 /**
  * 
@@ -37,13 +32,13 @@ import java.util.Set;
 		1번 마을에 있는 음식점이 K 이하의 시간에 배달이 가능한 마을의 개수를 return 하면 됩니다.
 
  * */
-public class FindRoads {
+public class FindRoads_dji {
 
 	public static void main(String[] args) {
 		
-		int N = 6;
-		int K = 4;
-		int[][] road = {{1, 2, 4}, {1, 3, 1}, {3, 4, 1}, {4, 2, 1}, {2, 5, 1}};
+		int N = 5;
+		int K = 1;
+		int[][] road = {{1, 2, 1}, {2, 3, 3}, {5, 2, 2}, {1, 4, 2}, {5, 3, 1}, {5, 4, 2}};
 		
 		System.out.println(solution(N, road, K)); 
 	}
@@ -76,45 +71,34 @@ public class FindRoads {
         	});
         }
        
-        //bfs
-        int nowPoint = 1;
-        
+        Map<Integer, Integer> answerMap = new HashMap<Integer, Integer>();
+
         Queue<Village> queue = new LinkedList<>();
-        queue.add(new Village(nowPoint, 0, roadMap.get(nowPoint)));
+        queue.add(new Village(1, 0, roadMap.get(1)));
         
-        Map<Integer, Integer> answerMap = new HashMap<Integer, Integer>(); 
-        
-        PriorityQueue<Road> priorityQueue = new PriorityQueue<>(Comparator.comparingInt(roads -> roads.cost));
-        Set<Integer> visited = new HashSet<>();
-
-        for (int r : roadMap.keySet()) {
-        	answerMap.put(r, Integer.MAX_VALUE);
+        Village v = null;
+        int target = -1;
+        while(!queue.isEmpty()) {
+        	
+        	v = queue.poll();
+        	answerMap.put(v.village, v.distance);
+        	
+        	for(Road r : v.roadList) {
+        		//각 리스트에서 같은 마을 간 최단거리가 제일 먼저 나오도록 정렬되어있음
+        		if(target == r.end) {
+        			continue;
+        		} 
+        		target = r.end;
+        		
+        		if(v.distance + r.cost <= K) {
+        			if(answerMap.get(r.end) == null
+        					|| answerMap.get(r.end) > v.distance + r.cost) {
+        				answerMap.put(r.end, v.distance + r.cost);
+        				queue.add(new Village(r.end, v.distance + r.cost, roadMap.get(r.end)));
+        			}
+        		}
+        	}
         }
-        
-        answerMap.put(1, 0);
-        priorityQueue.add(new Road(1, 1, 0));
-
-        while (!priorityQueue.isEmpty()) {
-            Road current = priorityQueue.poll();
-            int currentNode = current.end;
-
-            if (!visited.add(currentNode)) {
-                continue;
-            }
-
-            for (Road neighbor : roadMap.getOrDefault(currentNode, Collections.emptyList())) {
-                if (visited.contains(neighbor.end)) {
-                    continue;
-                }
-
-                int newDist = answerMap.get(currentNode) + neighbor.cost;
-                if (newDist < answerMap.get(neighbor.end)) {
-                	answerMap.put(neighbor.end, newDist);
-                    priorityQueue.add(new Road(neighbor.start, neighbor.end, newDist));
-                }
-            }
-        }
-        
         System.out.println(answerMap);
         
         return answerMap.size();

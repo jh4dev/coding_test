@@ -85,9 +85,6 @@ public class FindRoads_98 {
         while(!queue.isEmpty()) {
         	vil = queue.poll();
         	answerMap.put(vil.village, vil.distance);
-        	System.out.println(vil);
-        	System.out.println(queue);
-        	System.out.println("---------");
         	for(int i = 0; i < vil.roadList.size(); i++) {
         		if(before == vil.roadList.get(i).end) {
         			//중복경로는 최소거리가 먼저 나오도록 정렬하였으므로, 동일한 도착지는 패스시킨다.
