@@ -1,7 +1,8 @@
 package practice.lvl2;
 
-import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * 줄 세우기
@@ -24,23 +25,69 @@ public class StandInRow {
 
 	public static void main(String[] args) {
 		
-		int n = 3;
-		int k = 3;
-		
+		int n = 20;
+		long k = getFactorialValue(20)-1;
 		System.out.println(Arrays.toString(solution(n, k)));
+//		for(int i = 1; i <= getFactorialValue(n); i++) {
+//		}
 	}
 	
 	public static int[] solution(int n, long k) {
-        int[] answer = {};
-        
+		int[] answer = new int[n];
+		
+		List<Integer> numList = new ArrayList<Integer>();
+		
+		for(int i = 1; i <= n; i++) {
+			numList.add(i);
+		}
+		
         //n이 최대값인 경우, 가능한 모든 경우의 수 = 20!...
-        BigInteger ft = BigInteger.ONE;
-        for (int i = 1; i <= n; i++) {
-        	ft = ft.multiply(BigInteger.valueOf(i));
+        //최대 19자리 -> long 사용
+        //맨 앞 숫자부터 처리
+		//i 번쨰 자리 숫자는, n - i 팩토리얼의 몫 (나머지가 0보다 큰 경우 + 1)
+        int answerIdx = 0;
+        int numIdx = 0;
+        long div = 0, mod = 0;
+        long ft;
+        while(numList.size() > 0) {
+        	
+        	if(k == 0) {
+        		answer[answerIdx] = numList.remove(numList.size() - 1);
+        		answerIdx++;
+        		continue;
+        	}
+        	
+        	ft = getFactorialValue(n - (answerIdx + 1));
+        	div = k / ft;
+        	mod = k % ft;
+        	
+        	if(mod == 0) {
+        		numIdx = (int) div - 1;
+        	} else {
+        		numIdx = (int) div;
+        	}
+        	answer[answerIdx] = numList.get(numIdx);
+        	numList.remove(numIdx);
+        	
+        	answerIdx++;
+        	k = mod;
+        	
+        	if(numList.size() == 1) {
+        		answer[answerIdx] = numList.get(0);
+        		break;
+        	}
         }
-        
-        
         
         return answer;
     }
+	
+	public static long getFactorialValue(int f) {
+		//n이 최대값인 경우, 가능한 모든 경우의 수 = 20!...
+		long ft = 1;
+        for (int i = 1; i <= f; i++) {
+        	ft = ft * i;
+        }
+        
+        return ft;
+	}
 }

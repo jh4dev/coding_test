@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class Combination2 {
 	public static void main(String[] args) {
-        Set<String> sets = new HashSet<>(Arrays.asList("abc", "123", "ABC"));
+        Set<String> sets = new HashSet<>(Arrays.asList("+", "-", "*"));
         List<String> combinations = getAllCombinations(sets);
         
         System.out.println(combinations);
