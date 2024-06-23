@@ -1,8 +1,9 @@
 package practice.lvl2;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Queue;
 
 /**
@@ -52,53 +53,122 @@ public class RecochetRobot {
 	
 	static List<Integer> answerList = new ArrayList<Integer>();
 	static int[][] dirs = {{0,1},{0,-1},{1,0},{-1,0}};
+	
+	static char _PATH = '.';
+	static char _WALL = 'D';
+	static char _GOAL = 'G';
+	static char _START = 'R';
+	
+	static char[][] map;
+	
 	public static int solution(String[] board) {
         
+		map = new char[board.length][board[0].length()];
+		
+		int[] startPoint = null, goalPoint = null;
+		for(int i = 0; i < board.length; i++) {
+			for(int j = 0; j < board[0].length(); j++) {
+				
+				if(board[i].charAt(j) == _START) startPoint = new int[] {i, j};
+				if(board[i].charAt(j) == _GOAL) goalPoint = new int[] {i,j};
+				
+				map[i][j] = board[i].charAt(j);
+			}
+		}
+		
+		Queue<Point> queue = new LinkedList<Point>();
+		queue.add(new Point(startPoint[0], startPoint[1], 0));
+		
+		boolean[][] visited = new boolean[map.length][map[0].length];
+		Point now = null;
+		while(!queue.isEmpty()) {
+			now = queue.poll();
+			
+			if(now.row == goalPoint[0] && now.col == goalPoint[1]) {
+				return now.turnCnt;
+			}
+			
+			if(visited[now.row][now.col]) {
+				continue;
+			}
+			visited[now.row][now.col] = true;
+			
+			now.turnCnt++;
+			queue.add(getStopPoint(now, 0));
+			queue.add(getStopPoint(now, 1));
+			queue.add(getStopPoint(now, 2));
+			queue.add(getStopPoint(now, 3));
+		}
         
-        answerList.sort((o1, o2) -> o1 - o2);
-        return answerList.get(0);
+        return -1;
     }
 	
-	public Point getStopPoint(Point curPoint, int dir) {
-		return null;
+	public static Point getStopPoint(Point curPoint, int dir) {
+		
+		Point stop = new Point();
+		stop.row = curPoint.row;
+		stop.col = curPoint.col;
+		stop.turnCnt = curPoint.turnCnt;
+		
+		while(true) {
+			
+			stop.move(dir);
+			
+			//범위 밖
+			if(stop.row < 0 || stop.row >= map.length || stop.col < 0 || stop.col >= map[0].length) {
+				stop.back(dir);
+				return stop;
+			}
+				
+			//장애물 
+			if(map[stop.row][stop.col] == _WALL) {
+				stop.back(dir);
+				return stop;
+			}
+			
+			
+		}
 	}
 	
+	public static void print() {
+
+		for(int i= 0; i < map.length; i++) {
+			System.out.println(Arrays.toString(map[i]));
+		}
+	}
 	
-	public class Point {
+	public static class Point {
 		int row;
 		int col;
-		int dir;
 		int turnCnt;
 		
-		public Point(int row, int col, int dir, int turnCnt) {
+		public Point() {
+
+		}
+		
+		public Point(int row, int col, int turnCnt) {
 			this.row = row;
 			this.col = col;
-			this.dir = dir;
 			this.turnCnt = turnCnt;
 		}
 		
-		@Override
-		public String toString() {
-			return "Point [row=" + row + ", col=" + col + ", dir=" + dir + ", turnCnt=" + turnCnt + "]";
+
+		public void back(int dir) {
+			
+			this.row -= dirs[dir][0];
+			this.col -= dirs[dir][1];
 		}
 		
-		// equals 메소드 오버라이딩
-	    @Override
-	    public boolean equals(Object obj) {
-	        if (this == obj) {
-	            return true;
-	        }
-	        if (obj == null || getClass() != obj.getClass()) {
-	            return false;
-	        }
-	        Point p = (Point) obj;
-	        return this.row == p.row && this.col == p.col && this.dir == p.dir;
-	    }
-
-	    // hashCode 메소드도 오버라이딩 해야 합니다
-	    @Override
-	    public int hashCode() {
-	    	return Objects.hash(row, col, dir);
-	    }
+		public void move(int dir) {
+			
+			this.row += dirs[dir][0];
+			this.col += dirs[dir][1];
+		}
+		
+		
+		@Override
+		public String toString() {
+			return "Point [row=" + row + ", col=" + col + ", turnCnt=" + turnCnt + "]";
+		}
 	}
 }
