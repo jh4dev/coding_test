@@ -30,7 +30,7 @@ public class BiggerAfterMe {
 
         Stack<Integer> stack = new Stack<Integer>();
         Arrays.fill(answer, -1); 
-
+        
         for (int i = 0; i < numbers.length; i++) {
             while (!stack.isEmpty() && numbers[stack.peek()] < numbers[i]) {
                 answer[stack.pop()] = numbers[i];
