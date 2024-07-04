@@ -5,7 +5,7 @@ public class ReplaceBracket {
 	
 	public static void main(String[] args) {
 
-		String s = "[[40, 10000], [25, 10000]]";
+		String s = "[\"I -45\", \"I 653\", \"D 1\", \"I -642\", \"I 45\", \"I 97\", \"D 1\", \"D -1\", \"I 333\"]";
 		
 		s = s.replace("[", "{");
 		s = s.replace("]", "}");
