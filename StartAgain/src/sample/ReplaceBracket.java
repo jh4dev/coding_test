@@ -5,7 +5,7 @@ public class ReplaceBracket {
 	
 	public static void main(String[] args) {
 
-		String s = "[[7], [3, 8], [8, 1, 0], [2, 7, 4, 4], [4, 5, 2, 6, 5]]";
+		String s = "[[0,1,1],[0,2,2],[1,2,5],[1,3,1],[2,3,8]]";
 		
 		s = s.replace("[", "{");
 		s = s.replace("]", "}");
