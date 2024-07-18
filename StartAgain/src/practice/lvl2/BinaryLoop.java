@@ -22,6 +22,7 @@ public class BinaryLoop {
 		String s = "111111111111111111111111111111111111";
 		
 		System.out.println(Arrays.toString(solution(s)));
+		System.out.println(Arrays.toString(resolution(s)));
 	}
 	
 	public static int[] solution(String s) {
@@ -50,7 +51,7 @@ public class BinaryLoop {
 	
 	public static String changeNumberFormat(long num, int format) {
 		StringBuffer sbf = new StringBuffer();
-		//몫이 2보다 작아질 때까지 나눈다
+		//몫이 format 보다 작아질 때까지 나눈다
 		//나머지 칸 0 처리
 		while(true) {
 			
@@ -65,5 +66,26 @@ public class BinaryLoop {
 			if(num == 0) break;
 		}
 		return sbf.toString();
+	}
+
+	public static int[] resolution(String s) {
+		
+		int zeroCnt = 0;
+		int changeCnt = 0;
+		
+		//1. 0 제거
+		//2. 제거된 문자열의 길이를 2진법으로 변환 
+		String temp = s;
+		while(!temp.equals("1")) {
+			
+			while(temp.indexOf("0") >= 0) {
+				temp = temp.replaceFirst("0", "");
+				zeroCnt++;
+			}
+			
+			temp = changeNumberFormat(temp.length(), 2);
+			changeCnt++;
+		}
+		return new int[]{changeCnt, zeroCnt};
 	}
 }

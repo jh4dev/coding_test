@@ -1,25 +1,31 @@
 package sample;
 
-import java.time.LocalDate;
-
 public class Test {
 
 	public static void main(String[] args) {
 		
-		int a = 3;
-		System.out.println(Math.pow(a, 2));
 		
-		int result = (int) Math.pow(a, 2);
+		System.out.println(changeNumberFormat(18, 2));
+	}
+	
+	public static long changeNumberFormat(long num, int format) {
 		
-		LocalDate ld = LocalDate.now();
+		StringBuffer sbf = new StringBuffer();
 		
-		System.out.println(LocalDate.now().getYear());
+		while(true) {
+			
+			sbf.insert(0, num % format);
+			
+			if(num / format == 1) {
+				sbf.insert(0, 1);
+			} 
+			num /= format;
+			
+			if(num == 1) {
+				break;
+			}
+		}
 		
-		String ab = "abc";
-		
-		char[] temp = ab.toCharArray();
-		
-		
-		
+		return Long.parseLong(sbf.toString());
 	}
 }

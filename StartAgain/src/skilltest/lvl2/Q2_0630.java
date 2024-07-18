@@ -43,7 +43,7 @@ public class Q2_0630 {
         				tempPay += (emoticons[e] * ((double)(100 - comb.get(e)) / 100));
         			}
         			
-        			//구매 한도인 경우 구독처리 
+        			//구매 한도인 경우 구독처
         			if(tempPay >= uPay) {
         				subscribers++;
         				tempPay = 0;

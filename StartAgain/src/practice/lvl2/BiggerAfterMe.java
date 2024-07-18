@@ -23,6 +23,7 @@ public class BiggerAfterMe {
 		int[] numbers = {9, 1, 5, 3, 6, 2};
 		
 		System.out.println(Arrays.toString(solution(numbers)));
+		System.out.println(Arrays.toString(resolution(numbers)));
 	}
 	
 	public static int[] solution(int[] numbers) {
@@ -32,6 +33,8 @@ public class BiggerAfterMe {
         Arrays.fill(answer, -1); 
         
         for (int i = 0; i < numbers.length; i++) {
+        	System.out.println(numbers[i]);
+        	System.out.println(stack);
             while (!stack.isEmpty() && numbers[stack.peek()] < numbers[i]) {
                 answer[stack.pop()] = numbers[i];
             }
@@ -39,4 +42,28 @@ public class BiggerAfterMe {
         }
         return answer;
     }
+	
+	public static int[] resolution(int[] numbers) {
+		
+		int[] answer = new int[numbers.length];
+		Arrays.fill(answer, -1);
+
+		//스택으로 인덱스 관리
+		Stack<Integer> idxStack = new Stack<>();
+		
+		for(int i = 0; i < numbers.length; i++) {
+			
+			while(!idxStack.isEmpty()) {
+				if(numbers[idxStack.peek()] < numbers[i]) {
+					answer[idxStack.pop()] = numbers[i];
+				} else {
+					break;
+				}
+			}
+			
+			idxStack.push(i);
+		}
+		
+		return answer;
+	}
 }

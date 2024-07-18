@@ -19,12 +19,13 @@ public class OilDrilling {
 		System.out.println(solution(land));
 	}
 
-	static List<int[]> oilList = new ArrayList<>();
+	static List<int[]> oilList = new ArrayList<>();	//{최소 컬럼, 최대 컬럼, 매장량}
 	static boolean[][] visited;
 	static int minCol, maxCol, value;
 	
 	public static int solution(int[][] land) {
         
+		//기방문 지점 확인
         visited = new boolean[land.length][land[0].length];
         for(int i = 0; i < land.length; i++) {
         	for(int j = 0; j < land[i].length; j++) {
@@ -37,6 +38,7 @@ public class OilDrilling {
         			dfs(i, j, land);
         			
         			if(value > 0) {
+        				// 시추 지점 별 최소 컬럼, 최대 컬럼, 매장량 합계 확인 
         				oilList.add(new int[] {minCol, maxCol, value});
         			}
         			
@@ -52,6 +54,7 @@ public class OilDrilling {
         	return compare;
         });
         
+        //최대로 시추할 수 있는 컬럼 탐색 
         int max = 0;
         int sum = 0;
         for(int i = 0; i < land[0].length; i++) {
@@ -61,13 +64,10 @@ public class OilDrilling {
         		if(i < oil[0]) {
         			break;
         		}
-        		
         		if(i >= oil[0] && i <= oil[1]) {
         			sum += oil[2]; 
         		}
-        		
         	}
-        	
         	if(sum > max) {
         		max = sum;
         	}

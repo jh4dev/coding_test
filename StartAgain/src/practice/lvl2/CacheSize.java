@@ -26,7 +26,7 @@ import java.util.Deque;
 	출력 형식
 		입력된 도시이름 배열을 순서대로 처리할 때, "총 실행시간"을 출력한다.
 	조건
-		캐시 교체 알고리즘은 LRU(Least Recently Used)를 사용한다.
+		캐시 교체 알고리즘은 LRU(Least Recently Used)를 사용한다. -> FIFO
 		cache hit일 경우 실행시간은 1이다.
 		cache miss일 경우 실행시간은 5이다.
  * */
@@ -36,7 +36,8 @@ public class CacheSize {
 	public static void main(String[] args) {
 	
 		int chacheSize = 2;
-		String[] cities = {"Jeju", "Pangyo", "NewYork", "newyork"};
+		String[] cities = {"Jeju", "Pangyo", "jeju", "NewYork", "seoul", "newyork"};
+		
 		
 		System.out.println(solution(chacheSize, cities));
 	}
@@ -54,6 +55,7 @@ public class CacheSize {
         	
         	city = cities[i].toUpperCase();
         	
+        	//있다면, 덱 맨 뒤로 다시 삽입
         	if(cityDq.remove(city)) {
         		answer += _HIT;
         		cityDq.add(city);
@@ -64,6 +66,7 @@ public class CacheSize {
         			cityDq.add(city);
         		} else {
         			if(cacheSize > 0) {
+        				cityDq.poll();
         				cityDq.add(city);
         			}
         		}
