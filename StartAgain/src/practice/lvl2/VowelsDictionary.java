@@ -20,7 +20,7 @@ public class VowelsDictionary {
 	static int cnt = 1;
 	public static void main(String[] args) {
 		
-		String word = "A";
+		String word = "AAAAE";
 		
 		System.out.println(solution(word));
 	}
